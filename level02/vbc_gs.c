@@ -1,12 +1,13 @@
 #include <ctype.h>
 #include <stdio.h>
 
+
 char *s;
 int parsesum();
 int parseproduct();
 int parsefactor();
 
-void    unexpected(char c)
+void    unexpected(char c)// you can find this function within the subject directory i guess :)
 {
     if (c)
         printf("Unexpected token '%c'\n", c);
@@ -16,10 +17,10 @@ void    unexpected(char c)
 
 int check_input(char *str)
 {
+    int i = 0;
     int par = 0;
-    int i =0;
     char last_char = 0;
-    while(str[i])
+    while (str[i])
     {
         if (str[i] == '(')
             par++;
@@ -31,18 +32,18 @@ int check_input(char *str)
         i++;
     }
     if (par > 0)
-        return (unexpected('('), 1);
+        return (unexpected('('),1);
     if (par < 0)
-        return (unexpected('('), 1);
-    if (last_char != '+' || last_char != '*')
-        return unexpected(0), 1;
+        return (unexpected(')'),1);
+    if (last_char == '+' || last_char == '*')
+        return (unexpected(0),1);
     return 0;
 }
 
 int parsesum()
 {
-    int sum1 = parseproduct();
-    int sum2;
+    int sum2 = parseproduct();
+    int sum1;  
     while (*s == '+')
     {
         s++;
@@ -54,8 +55,8 @@ int parsesum()
 
 int parseproduct()
 {
-    int multi1 = parsefactor();
-    int multi2;
+    int multi2 = parsefactor();
+    int multi1;  
     while (*s == '*')
     {
         s++;
@@ -67,8 +68,8 @@ int parseproduct()
 
 int parsefactor()
 {
-    int nb = 0;
-    if (isdigit(*s))
+    int nb;
+    if (isdigit(s))
         return (*s++ - '0');
     else if(*s == '(')
     {
@@ -81,7 +82,7 @@ int parsefactor()
 
 int main(int ac, char **av)
 {
-    (void) ac;
+    (void)ac;
     s = av[1];
     if (check_input(av[1]))
         return 1;
